@@ -1,0 +1,3 @@
+class Square{
+  String image;
+}
