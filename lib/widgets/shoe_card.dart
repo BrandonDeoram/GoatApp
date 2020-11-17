@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:sample/model/products.dart';
+import 'package:sample/pages/details_page.dart';
 
 class ShoeCard extends StatelessWidget {
-  final String imagepath;
-  final String imagename;
+  final Product product;
+  final Function press;
   final double height = 50;
   ShapeBorder shape;
-  ShoeCard(this.imagepath,this.imagename);
+  ShoeCard({Key key, this.product, this.press}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: height,
       child: Card(
-        elevation: 0.4,
+        elevation: 0.2,
         color: Colors.white,
         // This ensures that the Card's children (including the ink splash) are clipped correctly.
         clipBehavior: Clip.antiAlias,
@@ -19,16 +21,23 @@ class ShoeCard extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Container(
-                margin: EdgeInsets.fromLTRB(40, 130, 0, 0),
-                child:
-                    Text(imagename, style: TextStyle(color: Colors.black))),
-            Ink.image(
-              image: AssetImage(imagepath),
-              child: InkWell(
-                onTap: () {
-                  print('Card was tapped');
-                },
+              alignment: Alignment.topLeft,
+              child: Text(
+                product.price,
+                textScaleFactor: .8,
               ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(0, 123, 0, 0),
+              child: Text(product.name, style: TextStyle(color: Colors.black)),
+              alignment: Alignment.center,
+            ),
+            InkWell(
+              child: Container(
+                height: 300,
+                child: Image.network(product.assetName),
+              ),
+              onTap: press,
             ),
           ],
         ),
