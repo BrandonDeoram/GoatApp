@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 import 'package:sample/model/products.dart';
+import 'package:sample/notifiers/ProductNotifier.dart';
 
 class CartCard extends StatefulWidget {
   final Product product;
   final Function press;
-  final List<Product> cart;
   final int index;
-  const CartCard({Key key, this.product, this.press, this.cart, this.index})
+  const CartCard({Key key, this.product, this.press, this.index})
       : super(key: key);
 
   @override
@@ -14,14 +16,9 @@ class CartCard extends StatefulWidget {
 }
 
 class _CartCardState extends State<CartCard> {
-  void onDelete() {
-    setState(() {
-      widget.cart.removeAt(widget.index);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    ProductNotifier listShoe = Provider.of<ProductNotifier>(context);
     ShapeBorder shape;
     return Container(
       height: 120,
@@ -52,7 +49,9 @@ class _CartCardState extends State<CartCard> {
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 140),
                     child: IconButton(
                       splashColor: Colors.blue,
-                      onPressed: onDelete,
+                      onPressed: () {
+                        listShoe.deleteItem(listShoe.items[widget.index]);
+                      },
                       icon: Icon(Icons.delete),
                       iconSize: 20,
                     ),

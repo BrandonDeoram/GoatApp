@@ -58,7 +58,7 @@ class BottomItems extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Cart(favMeals)));
+                  context, MaterialPageRoute(builder: (context) => Cart()));
             },
             tooltip: 'Cart',
           ),

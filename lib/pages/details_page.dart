@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sample/model/products.dart';
+import 'package:sample/notifiers/ProductNotifier.dart';
 import 'package:sample/widgets/cart.dart';
 
-class Details extends StatefulWidget {
+class Details extends StatelessWidget {
   int newIndex;
-  List<Product> _list = new List<Product>();
-  Details(this.newIndex, this._list);
-
-  @override
-  _DetailsState createState() => _DetailsState();
-}
-
-class _DetailsState extends State<Details> {
-  void _addList() {
-    setState(() {
-      var item = products[widget.newIndex];
-      widget._list.add(item);
-    });
-  }
-
+  static const routeName = '/details';
+  Details(this.newIndex);
   @override
   Widget build(BuildContext context) {
+    ProductNotifier listShoe = Provider.of<ProductNotifier>(context);
+
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -29,9 +20,9 @@ class _DetailsState extends State<Details> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Cart(widget._list)));
+                        builder: (context) => Cart()));
               },
-              icon: (widget._list.isEmpty)
+              icon: (listShoe.items.isEmpty)
                   ? Icon(Icons.shopping_cart_outlined)
                   : Icon(Icons.shopping_cart)),
         ],
@@ -53,7 +44,7 @@ class _DetailsState extends State<Details> {
                     endIndent: 40,
                   ),
                   Container(
-                    child: Text(products[widget.newIndex].name),
+                    child: Text(products[newIndex].name),
                   ),
                   Divider(
                     color: Colors.black,
@@ -63,8 +54,7 @@ class _DetailsState extends State<Details> {
                   Container(
                       height: 190,
                       color: Colors.white,
-                      child:
-                          Image.network(products[widget.newIndex].assetName)),
+                      child: Image.network(products[newIndex].assetName)),
                   Container(
                     child: Text('Product Detail'),
                     alignment: Alignment.topLeft,
@@ -77,7 +67,7 @@ class _DetailsState extends State<Details> {
                   Container(
                     height: 110,
                     child: Text(
-                      products[widget.newIndex].descript,
+                      products[newIndex].descript,
                       style: TextStyle(fontSize: 10),
                       textAlign: TextAlign.start,
                     ),
@@ -113,7 +103,7 @@ class _DetailsState extends State<Details> {
                                 child: Container(
                                   padding: EdgeInsets.only(left: 100),
                                   child: Text(
-                                    products[widget.newIndex].price,
+                                    products[newIndex].price,
                                     style: TextStyle(
                                         color: Colors.white, letterSpacing: 2),
                                   ),
@@ -122,7 +112,9 @@ class _DetailsState extends State<Details> {
                               Container(
                                 padding: EdgeInsets.only(left: 70),
                                 child: IconButton(
-                                  onPressed: _addList,
+                                  onPressed: () {
+                                    listShoe.add(products[newIndex]);
+                                  },
                                   icon: Icon(Icons.add_shopping_cart),
                                   color: Colors.white,
                                 ),

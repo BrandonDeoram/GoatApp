@@ -26,7 +26,7 @@ class Discover extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Details(index, favMeals)));
+                      builder: (context) => Details(index)));
             }),
       ),
     );

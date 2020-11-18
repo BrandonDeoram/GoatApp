@@ -1,28 +1,20 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sample/model/products.dart';
+import 'package:sample/notifiers/ProductNotifier.dart';
 import 'package:sample/widgets/cart_card.dart';
 import 'package:sample/widgets/shoe_card.dart';
 
 // ignore: must_be_immutable
 class Cart extends StatelessWidget {
-  final List<Product> _cart;
-  Cart(this._cart);
   double total = 0.0;
-  
-  double getTotal() {
-    //Turning price into a double , getting total of items
-    for (int i = 0; i < _cart.length; i++) {
-      total += double.parse(_cart[i].price.replaceAll(new RegExp(r'C\$'), ''));
-      //print(_cart[i].price.replaceAll(new RegExp(r'C\$'), ''));
-    }
-    return total;
-  }
-
   @override
   Widget build(BuildContext context) {
-    total = getTotal();
+    ProductNotifier listShoe = Provider.of<ProductNotifier>(context);
+    total = listShoe.totalPrice;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.1,
@@ -35,7 +27,11 @@ class Cart extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
       ),
-      body: buildBody(),
+      body: Consumer<ProductNotifier>(
+        builder: (context, pro, child) {
+          return buildBody(listShoe);
+        },
+      ),
       bottomNavigationBar: Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
         decoration: ShapeDecoration(
@@ -49,23 +45,26 @@ class Cart extends StatelessWidget {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Text(
-                "Total: \$" "$total",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Consumer<ProductNotifier>(
+                  builder: (context, pro, child) {
+                    return Text(
+                      "Total: \$" "$total",
+                      style: TextStyle(color: Colors.white),
+                    );
+                  },
+                )),
           ],
         ),
       ),
     );
   }
 
-  Container buildContainer() {
+  Container buildContainer(listShoe) {
     return Container(
       child: GridView.builder(
         padding: EdgeInsets.all(10),
-        itemCount: _cart.length,
+        itemCount: listShoe.items.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           childAspectRatio: 2,
           crossAxisSpacing: 100,
@@ -73,17 +72,16 @@ class Cart extends StatelessWidget {
           crossAxisCount: 1,
         ),
         itemBuilder: (context, index) => CartCard(
-          product: _cart[index],
+          product: listShoe.items[index],
           press: () {},
-          cart: _cart,
           index: index,
         ),
       ),
     );
   }
 
-  Widget buildBody() {
-    if (_cart.isEmpty) {
+  Widget buildBody(listShoe) {
+    if (listShoe.items.isEmpty) {
       return Container(
         alignment: Alignment.center,
         child: Text(
@@ -92,7 +90,7 @@ class Cart extends StatelessWidget {
         ),
       );
     } else {
-      return buildContainer();
+      return buildContainer(listShoe);
     }
   }
 }
