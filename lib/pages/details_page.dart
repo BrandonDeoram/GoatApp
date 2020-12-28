@@ -18,9 +18,7 @@ class Details extends StatelessWidget {
           IconButton(
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Cart()));
+                    context, MaterialPageRoute(builder: (context) => Cart()));
               },
               icon: (listShoe.items.isEmpty)
                   ? Icon(Icons.shopping_cart_outlined)
@@ -72,9 +70,13 @@ class Details extends StatelessWidget {
                       textAlign: TextAlign.start,
                     ),
                   ),
+                  //Size
+                  //products[newIndex].sizes[newIndex]
+
                   Container(
-                    padding: const EdgeInsets.only(top: 58),
-                    alignment: Alignment.center,
+                    height: 108,
+                    padding: const EdgeInsets.only(top:58),
+                    alignment: Alignment.bottomCenter,
                     child: Stack(
                       children: <Widget>[
                         Container(
@@ -85,43 +87,7 @@ class Details extends StatelessWidget {
                                   topLeft: Radius.circular(24),
                                   topRight: Radius.circular(24))),
                         ),
-                        Container(
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                child: IconButton(
-                                  onPressed: () {
-                                    print('tapped');
-                                  },
-                                  icon: Icon(Icons.favorite),
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Flexible(
-                                fit: FlexFit.tight,
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 100),
-                                  child: Text(
-                                    products[newIndex].price,
-                                    style: TextStyle(
-                                        color: Colors.white, letterSpacing: 2),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(left: 70),
-                                child: IconButton(
-                                  onPressed: () {
-                                    listShoe.add(products[newIndex]);
-                                  },
-                                  icon: Icon(Icons.add_shopping_cart),
-                                  color: Colors.white,
-                                ),
-                              )
-                            ],
-                          ),
-                        )
+                        BottomBar(newIndex: newIndex, listShoe: listShoe)
                       ],
                     ),
                   ),
@@ -130,6 +96,57 @@ class Details extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class BottomBar extends StatelessWidget {
+  const BottomBar({
+    Key key,
+    @required this.newIndex,
+    @required this.listShoe,
+  }) : super(key: key);
+
+  final int newIndex;
+  final ProductNotifier listShoe;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: Row(
+        children: <Widget>[
+          Container(
+            child: IconButton(
+              onPressed: () {
+                print('tapped');
+              },
+              icon: Icon(Icons.favorite),
+              color: Colors.white,
+            ),
+          ),
+          Flexible(
+            fit: FlexFit.tight,
+            child: Container(
+              padding: EdgeInsets.only(left: 100),
+              child: Text(
+                products[newIndex].price,
+                style: TextStyle(color: Colors.white, letterSpacing: 2),
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 70),
+            child: IconButton(
+              onPressed: () {
+                listShoe.add(products[newIndex]);
+              },
+              icon: Icon(Icons.add_shopping_cart),
+              color: Colors.white,
+            ),
+          )
+        ],
       ),
     );
   }

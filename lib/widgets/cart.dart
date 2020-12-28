@@ -43,17 +43,33 @@ class Cart extends StatelessWidget {
         ),
         height: 50,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Consumer<ProductNotifier>(
-                  builder: (context, pro, child) {
-                    return Text(
-                      "Total: \$" "$total",
-                      style: TextStyle(color: Colors.white),
-                    );
-                  },
-                )),
+            Container(
+              width: 100,
+              child: Consumer<ProductNotifier>(
+                builder: (context, pro, child) {
+                  return Text(
+                    "Total: \$" "$total",
+                    style: TextStyle(color: Colors.white),
+                  );
+                },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(50,0, 0, 0),
+              width: 100,
+              child: FlatButton(
+                splashColor: Colors.white,
+                onPressed: () {
+                  listShoe.clearCart();
+                },
+                child: Text(
+                  "Clear Cart",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
           ],
         ),
       ),

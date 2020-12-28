@@ -2,33 +2,50 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:sample/main.dart';
 import 'package:sample/model/products.dart';
 
 class ProductNotifier extends ChangeNotifier {
   final List<Product> _items = [];
-  int counter = 0;
 
   UnmodifiableListView<Product> get items => UnmodifiableListView(_items);
 
   double get totalPrice {
     double total = 0;
-    ;
     for (int i = 0; i < _items.length; i++) {
       total += double.parse(_items[i].price.replaceAll(new RegExp(r'C\$'), ''));
-      //print(_cart[i].price.replaceAll(new RegExp(r'C\$'), ''));
     }
-    notifyListeners();
+
     return total;
-    
   }
 
   void add(Product item) {
-    _items.add(item);
-    notifyListeners();
+    if (items.contains(item)) {
+      item.quantity++;
+      notifyListeners();
+    } else {
+      _items.add(item);
+      item.quantity = 1;
+      // _items[index].quantity++;
+      notifyListeners();
+    }
   }
 
   void deleteItem(Product item) {
-    _items.remove(item);
+    if (item.quantity > 1) {
+      item.quantity--;
+    } else {
+      _items.remove(item);
+    }
     notifyListeners();
+  }
+
+  void clearCart() {
+    _items.clear();
+    notifyListeners();
+  }
+
+  int getQuantity(Product item) {
+    return item.quantity;
   }
 }

@@ -66,7 +66,7 @@ class Profile extends StatelessWidget {
                     children: <Widget>[
                       Icon(Icons.phone),
                       Text(
-                        '647-574-5245',
+                        '647-456-3453',
                         style: TextStyle(letterSpacing: 1, fontSize: 12),
                       ),
                     ],

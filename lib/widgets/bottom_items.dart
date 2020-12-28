@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sample/main.dart';
 import 'package:sample/model/clothing.dart';
 import 'package:sample/model/products.dart';
-import 'package:sample/pages/Page1.dart';
-import 'package:sample/pages/Page2.dart';
 import 'package:sample/pages/clothing_page.dart';
 import 'package:sample/widgets/cart.dart';
-import 'package:sample/widgets/home.dart';
 import 'package:sample/widgets/profile.dart';
 
 class BottomItems extends StatelessWidget {

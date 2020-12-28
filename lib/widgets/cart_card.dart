@@ -86,6 +86,10 @@ class _CartCardState extends State<CartCard> {
                 onTap: () {},
               ),
             ),
+            Container(
+              child: Text("x" + listShoe.items[widget.index].quantity.toString()),
+              alignment: Alignment.bottomRight,
+            ),
           ],
         ),
       ),
