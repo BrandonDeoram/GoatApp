@@ -13,7 +13,7 @@ class JustDropped extends StatelessWidget {
       children: <Widget>[
         Container(
           child: Text('Incoming'),
-          padding: EdgeInsets.fromLTRB(0, 0, 290, 0),
+          padding: EdgeInsets.fromLTRB(0, 0, 270, 0),
         ),
         Container(
           padding: EdgeInsets.all(10),

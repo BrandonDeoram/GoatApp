@@ -54,23 +54,8 @@ class Drops extends StatelessWidget {
                 Container(
                   height: 20,
                   child: Card(
-                    borderOnForeground: false,
-                    margin:EdgeInsets.fromLTRB(10, 0, 10, 100),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 24.0, left: 6.0, right: 6.0, bottom: 6.0),
-                      child: ExpansionTile(
-                        title: Text('Birth of Universe'),
-                        children: <Widget>[
-                          FlatButton(
-                            child: Text('Big Bang'),
-                            onPressed: () {},
-                          ),
-                          Text('Birth of the Sun'),
-                          Text('Earth is Born'),
-                        ],
-                      ),
-                    ),
+                    margin: EdgeInsets.fromLTRB(10, 0, 10, 100),
+                    
                   ),
                 ),
               ],

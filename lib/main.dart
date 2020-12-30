@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sample/model/clothing.dart';
 import 'package:sample/model/iconstemp.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           initialRoute: '/',
           routes: <String, WidgetBuilder>{
             '/': (BuildContext context) => Goat(),
-            Discover.routeName: (ctx) => Discover(favMeals),
+            Discover.routeName: (ctx) => Discover(),
             BottomItems.routeName: (ctx) => BottomItems(clothingFav, favMeals),
             '/c': (BuildContext context) => null,
             Details.routeName: (ctx) => Details(index),
@@ -72,7 +73,7 @@ class Goat extends StatelessWidget {
             ),
           ),
           body: TabBarView(
-            children: <Widget>[Discover(favMeals), Drops()],
+            children: <Widget>[Discover(), Drops()],
           ),
         ),
       ),

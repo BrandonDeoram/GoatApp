@@ -6,7 +6,7 @@ import 'package:sample/widgets/shoe_card.dart';
 class Discover extends StatelessWidget {
   static const routeName = '/discover';
   List<Product> favMeals = new List<Product>();
-  Discover(this.favMeals);
+  Discover();
   //padding: const EdgeInsets.all(8),
   @override
   Widget build(BuildContext context) {
