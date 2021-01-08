@@ -7,9 +7,7 @@ import 'package:sample/widgets/cart.dart';
 import 'package:sample/widgets/profile.dart';
 
 class BottomItems extends StatelessWidget {
-  final List<Clothing> clothingFav;
-  final List<Product> favMeals;
-  BottomItems(this.clothingFav,this.favMeals);
+  BottomItems();
   @override
   static const routeName = '/bottomitems-page';
   Widget build(BuildContext context) {
@@ -18,9 +16,7 @@ class BottomItems extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
           color: Colors.black,
-          border: Border.all(
-            color: Colors.black,
-          ),
+          border: Border.all(),
           borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -41,10 +37,8 @@ class BottomItems extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ClothingPage(this.clothingFav)));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ClothingPage()));
             },
             tooltip: 'Clothing',
           ),

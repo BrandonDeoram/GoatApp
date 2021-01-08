@@ -3,8 +3,7 @@ import 'package:sample/model/clothing.dart';
 import 'package:sample/widgets/clothing_card.dart';
 
 class ClothingPage extends StatelessWidget {
-  final List<Clothing> clothingFav;
-  ClothingPage(this.clothingFav);
+  ClothingPage();
   @override
   static const routeName = '/clothing-page';
   Widget build(BuildContext context) {

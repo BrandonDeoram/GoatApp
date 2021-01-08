@@ -106,24 +106,24 @@ List<Product> products = [
 ];
 List<Product> nikeSneakers = [
   Product(
-      'https://cdn.flightclub.com/2200/TEMPLATE/805345/1.jpg',
-      'Kendrick Lamar Cortez\'s',
-      'C\$220',
+      'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5,q_80/i1-ce1082f5-2de3-445b-8d27-c45317e75e4d/air-max-tailwind-v-sp-shoe-tH9DlS.jpg',
+      'Air Max Tailwind\'s',
+      'C\$225',
       'The Air Jordan 5 Retro SE ‘Top 3’ combines design elements from a trio of the silhouette’s OG releases. The nubuck upper is drawn from the Black/Metallic Silver colorway, complete with lace locks, quarter panel netting and Nike Air branding on the heel. The embroidered ‘23’ is taken from the Fire Red colorway, with that shoe’s red midsole mashed up with metallic silver shark-tooth detailing. Finally, the purple tongue is lifted from the ‘Grape’ Air Jordan 5, featuring a teal Jumpman front and center.',
       'c11',
       sizes,
       0),
   Product(
-      'https://cdn.flightclub.com/2200/TEMPLATE/160082/1.jpg',
-      'NikeLab\'s',
-      'C\$220',
+      'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5,q_80/3f46cb7b-1b6e-495f-bb88-a8faa1580e29/air-max-zephyr-shoe-zX5mZP.jpg',
+      'Air Max Zephyr',
+      'C\$170',
       'The Air Jordan 5 Retro SE ‘Top 3’ combines design elements from a trio of the silhouette’s OG releases. The nubuck upper is drawn from the Black/Metallic Silver colorway, complete with lace locks, quarter panel netting and Nike Air branding on the heel. The embroidered ‘23’ is taken from the Fire Red colorway, with that shoe’s red midsole mashed up with metallic silver shark-tooth detailing. Finally, the purple tongue is lifted from the ‘Grape’ Air Jordan 5, featuring a teal Jumpman front and center.',
       'c12',
       sizes,
       0),
   Product(
-      'https://cdn.flightclub.com/2200/TEMPLATE/803315/1.jpg',
-      'Air Force 1',
+      'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/97cb69b5-fb96-4317-adcd-a10320309515/kyrie-7-basketball-shoe-hv6LdK.jpg',
+      'Kyrie 7',
       'C\$220',
       'The Air Jordan 5 Retro SE ‘Top 3’ combines design elements from a trio of the silhouette’s OG releases. The nubuck upper is drawn from the Black/Metallic Silver colorway, complete with lace locks, quarter panel netting and Nike Air branding on the heel. The embroidered ‘23’ is taken from the Fire Red colorway, with that shoe’s red midsole mashed up with metallic silver shark-tooth detailing. Finally, the purple tongue is lifted from the ‘Grape’ Air Jordan 5, featuring a teal Jumpman front and center.',
       'c13',

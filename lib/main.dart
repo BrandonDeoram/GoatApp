@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           routes: <String, WidgetBuilder>{
             '/': (BuildContext context) => Goat(),
             Discover.routeName: (ctx) => Discover(),
-            BottomItems.routeName: (ctx) => BottomItems(clothingFav, favMeals),
+            BottomItems.routeName: (ctx) => BottomItems(),
             '/c': (BuildContext context) => null,
             Details.routeName: (ctx) => Details(index),
           },
@@ -50,12 +50,11 @@ class Goat extends StatelessWidget {
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
-          bottomNavigationBar: BottomItems(clothingFav, favMeals),
+          bottomNavigationBar: BottomItems(),
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: AppBar(
               elevation: 10,
-              //backgroundColor: Colors.white,
               bottom: TabBar(
                 indicatorSize: TabBarIndicatorSize.label,
                 onTap: (_) {},

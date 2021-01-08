@@ -12,8 +12,8 @@ class NikeShoeCard extends StatelessWidget {
     return SizedBox(
       height: height,
       child: Card(
-        elevation: 1,
-        color: Colors.transparent,
+        elevation: 1.5,
+        color: Colors.grey.shade100,
         // This ensures that the Card's children (including the ink splash) are clipped correctly.
         clipBehavior: Clip.antiAlias,
         shape: shape,
@@ -27,16 +27,26 @@ class NikeShoeCard extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(0, 200, 0, 0),
-              child: Text(product.name, style: TextStyle(color: Colors.green)),
-              alignment: Alignment.center,
+              margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child:
+                  Text(product.name, style: TextStyle(color: Colors.grey[900])),
+              alignment: Alignment.bottomLeft,
             ),
-            InkWell(
-              child: Container(
-                height: 300,
-                child: Image.network(product.assetName),
+            Container(
+              alignment: Alignment.center,
+              child: InkWell(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(0, 25, 0, 25),
+                  color: Colors.transparent,
+                  height: 500,
+                  width: 200,
+                  child: Image.network(
+                    product.assetName,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                onTap: press,
               ),
-              onTap: press,
             ),
           ],
         ),
