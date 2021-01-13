@@ -55,7 +55,6 @@ class Drops extends StatelessWidget {
                   height: 20,
                   child: Card(
                     margin: EdgeInsets.fromLTRB(10, 0, 10, 100),
-                    
                   ),
                 ),
               ],

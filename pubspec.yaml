@@ -19,9 +19,13 @@ environment:
 dependencies:
   swipedetector: ^1.2.0
   flutter_swiper: ^1.1.6
+  
 
   flutter:
     sdk: flutter
+  firebase_auth: ^0.14.0+5
+  google_sign_in: ^4.4.4
+  cloud_firestore: ^0.12.9+4
 
   # Import the provider package.
   provider: ^4.0.2

@@ -13,7 +13,6 @@ class Nike extends StatefulWidget {
 class _NikeState extends State<Nike> {
   @override
   Widget build(BuildContext context) {
-    String _swipeDirection = "";
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(actions: [

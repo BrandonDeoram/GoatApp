@@ -130,3 +130,30 @@ List<Product> nikeSneakers = [
       sizes,
       0),
 ];
+
+List<Product> addidasSneakers = [
+  Product(
+      'https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/008/492/430/original/94407_08.jpg.jpeg?1513117674',
+      'Yeezy Boost 350 V2 Bred\'s',
+      'C\$225',
+      'The Air Jordan 5 Retro SE ‘Top 3’ combines design elements from a trio of the silhouette’s OG releases. The nubuck upper is drawn from the Black/Metallic Silver colorway, complete with lace locks, quarter panel netting and Nike Air branding on the heel. The embroidered ‘23’ is taken from the Fire Red colorway, with that shoe’s red midsole mashed up with metallic silver shark-tooth detailing. Finally, the purple tongue is lifted from the ‘Grape’ Air Jordan 5, featuring a teal Jumpman front and center.',
+      'c11',
+      sizes,
+      0),
+  Product(
+      'https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/014/979/035/original/105568_08.jpg.jpeg?1538074936',
+      'Yeezy Boost 350 V2 Zebra',
+      'C\$350',
+      'The Air Jordan 5 Retro SE ‘Top 3’ combines design elements from a trio of the silhouette’s OG releases. The nubuck upper is drawn from the Black/Metallic Silver colorway, complete with lace locks, quarter panel netting and Nike Air branding on the heel. The embroidered ‘23’ is taken from the Fire Red colorway, with that shoe’s red midsole mashed up with metallic silver shark-tooth detailing. Finally, the purple tongue is lifted from the ‘Grape’ Air Jordan 5, featuring a teal Jumpman front and center.',
+      'c12',
+      sizes,
+      0),
+  Product(
+      'https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/046/011/294/original/704152_08.jpg.jpeg?1606242882',
+      'Pharrell x NMD Human Race Black',
+      'C\$240',
+      'The Air Jordan 5 Retro SE ‘Top 3’ combines design elements from a trio of the silhouette’s OG releases. The nubuck upper is drawn from the Black/Metallic Silver colorway, complete with lace locks, quarter panel netting and Nike Air branding on the heel. The embroidered ‘23’ is taken from the Fire Red colorway, with that shoe’s red midsole mashed up with metallic silver shark-tooth detailing. Finally, the purple tongue is lifted from the ‘Grape’ Air Jordan 5, featuring a teal Jumpman front and center.',
+      'c13',
+      sizes,
+      0),
+];

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sample/main.dart';
-import 'package:sample/model/clothing.dart';
-import 'package:sample/model/products.dart';
+import 'package:sample/home/home.dart';
 import 'package:sample/pages/clothing_page.dart';
 import 'package:sample/widgets/cart.dart';
 import 'package:sample/widgets/profile.dart';
@@ -28,7 +26,7 @@ class BottomItems extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Goat()));
+                    context, MaterialPageRoute(builder: (context) => Home()));
               },
               tooltip: 'Home'),
           IconButton(

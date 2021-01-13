@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "136551498898",
+    "project_id": "dapperapp-c1900",
+    "storage_bucket": "dapperapp-c1900.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136551498898:android:abfd1b965acaf11d62924b",
+        "android_client_info": {
+          "package_name": "com.example.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "136551498898-0ncph6q3kj1iebehmpgoac512gushnug.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sample",
+            "certificate_hash": "7c5b8e2538e6294b957cafb3eed2ad690acc5202"
+          }
+        },
+        {
+          "client_id": "136551498898-8occ5su45p95u26a25g44obmjidnff5m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBfUYPrdo-zegcqlDRjZz5wSpw2u5NEDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "136551498898-8occ5su45p95u26a25g44obmjidnff5m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
