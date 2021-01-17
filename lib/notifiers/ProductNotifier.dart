@@ -1,8 +1,5 @@
 import 'dart:collection';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:sample/main.dart';
 import 'package:sample/model/products.dart';
 
 class ProductNotifier extends ChangeNotifier {

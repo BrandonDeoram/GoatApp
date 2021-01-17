@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample/model/products.dart';
 import 'package:sample/notifiers/ProductNotifier.dart';
+import 'package:sample/services/auth.dart';
 import 'package:sample/widgets/cart.dart';
 
 class Details extends StatelessWidget {
@@ -75,7 +77,7 @@ class Details extends StatelessWidget {
 
                   Container(
                     height: 108,
-                    padding: const EdgeInsets.only(top:58),
+                    padding: const EdgeInsets.only(top: 58),
                     alignment: Alignment.bottomCenter,
                     child: Stack(
                       children: <Widget>[
@@ -102,14 +104,16 @@ class Details extends StatelessWidget {
 }
 
 class BottomBar extends StatelessWidget {
-  const BottomBar({
+  BottomBar({
     Key key,
     @required this.newIndex,
     @required this.listShoe,
   }) : super(key: key);
 
   final int newIndex;
+  AuthService _auth = new AuthService();
   final ProductNotifier listShoe;
+  final db = Firestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -139,8 +143,14 @@ class BottomBar extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(left: 70),
             child: IconButton(
-              onPressed: () {
+              onPressed: () async {
                 listShoe.add(products[newIndex]);
+                final uid = await _auth.getUID();
+                await db
+                    .collection('shoes')
+                    .document(uid)
+                    .collection('shoeCart')
+                    .add(products[newIndex].toJson());
               },
               icon: Icon(Icons.add_shopping_cart),
               color: Colors.white,
