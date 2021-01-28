@@ -13,7 +13,7 @@ class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProductNotifier listShoe = Provider.of<ProductNotifier>(context);
-
+    print("amoutn in cart : " + lengthOfCart().toString());
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -22,7 +22,7 @@ class Details extends StatelessWidget {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => Cart()));
               },
-              icon: (listShoe.items.isEmpty)
+              icon: (lengthOfCart() == true)
                   ? Icon(Icons.shopping_cart_outlined)
                   : Icon(Icons.shopping_cart)),
         ],
@@ -103,6 +103,27 @@ class Details extends StatelessWidget {
   }
 }
 
+//TO:DO
+Future<bool> lengthOfCart() async {
+  AuthService _auth = new AuthService();
+  final uid = await _auth.getUID();
+
+  final _database = Firestore.instance;
+
+  final snapshot = await Firestore.instance
+      .collection("shoes")
+      .document(uid)
+      .collection("shoeCart")
+      .getDocuments();
+  print("length " + snapshot.documents.length.toString());
+  if (snapshot.documents.length == 0) {
+    print(snapshot.documents.length);
+    return true;
+  } else {
+    return false;
+  }
+}
+
 class BottomBar extends StatelessWidget {
   BottomBar({
     Key key,
@@ -144,13 +165,8 @@ class BottomBar extends StatelessWidget {
             padding: EdgeInsets.only(left: 70),
             child: IconButton(
               onPressed: () async {
-                listShoe.add(products[newIndex]);
-                final uid = await _auth.getUID();
-                await db
-                    .collection('shoes')
-                    .document(uid)
-                    .collection('shoeCart')
-                    .add(products[newIndex].toJson());
+                // listShoe.add(products[newIndex]);
+                addShoe(context, newIndex);
               },
               icon: Icon(Icons.add_shopping_cart),
               color: Colors.white,
@@ -160,4 +176,41 @@ class BottomBar extends StatelessWidget {
       ),
     );
   }
+}
+
+Future addShoe(context, int newIndex) async {
+  AuthService _auth = new AuthService();
+  final uid = await _auth.getUID();
+  final db = Firestore.instance;
+  String id = products[newIndex].id;
+  final doc = Firestore.instance
+      .collection("shoes")
+      .document(uid)
+      .collection("shoeCart")
+      .document(id);
+  DocumentSnapshot getId = await Firestore.instance
+      .collection("shoes")
+      .document(uid)
+      .collection("shoeCart")
+      .document(id)
+      .get();
+  int quantity = getId.data['quantity'];
+  quantity++;
+  //if this shoe already exist then add 1 to quantity
+  // print("ID:-------------------------------------" + getId.data['id']);
+  if (getId.exists) {
+    doc.updateData({'quantity': quantity});
+    print('already in cart');
+  } else {
+    await db
+        .collection('shoes')
+        .document(uid)
+        .collection('shoeCart')
+        .document(id)
+        .setData(products[newIndex].toJson());
+  }
+
+  //else add shoe
+
+  //Quantity is >1
 }

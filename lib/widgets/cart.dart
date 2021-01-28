@@ -79,8 +79,14 @@ class Cart extends StatelessWidget {
       child: StreamBuilder(
           stream: getUserStreamSnap(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Text('LOADIG...');
+            if (!snapshot.hasData || snapshot.data.documents.isEmpty) {
+              return Container(
+                alignment: Alignment.center,
+                child: Text(
+                  'Cart is Empty',
+                  style: TextStyle(fontSize: 20, letterSpacing: 3),
+                ),
+              );
             }
             return GridView.builder(
               padding: EdgeInsets.all(10),
@@ -104,20 +110,10 @@ class Cart extends StatelessWidget {
   Stream<QuerySnapshot> getUserStreamSnap() async* {
     AuthService _auth = new AuthService();
     final uid = await _auth.getUID();
-    yield* Firestore.instance.collection("shoes").document(uid).collection("shoeCart").snapshots();
-  }
-
-  Widget buildBody(listShoe) {
-    if (listShoe.items.isEmpty) {
-      return Container(
-        alignment: Alignment.center,
-        child: Text(
-          'Cart is Empty',
-          style: TextStyle(fontSize: 20, letterSpacing: 3),
-        ),
-      );
-    } else {
-      return buildContainer(listShoe);
-    }
+    yield* Firestore.instance
+        .collection("shoes")
+        .document(uid)
+        .collection("shoeCart")
+        .snapshots();
   }
 }
