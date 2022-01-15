@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sample/model/products.dart';
 import 'package:sample/notifiers/ProductNotifier.dart';
+import 'package:sample/services/auth.dart';
 import 'package:sample/widgets/cart_card.dart';
-import 'package:sample/widgets/shoe_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // ignore: must_be_immutable
 class Cart extends StatelessWidget {
@@ -27,11 +29,7 @@ class Cart extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Consumer<ProductNotifier>(
-        builder: (context, pro, child) {
-          return buildBody(listShoe);
-        },
-      ),
+      body: buildContainer(listShoe),
       bottomNavigationBar: Container(
         margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
         decoration: ShapeDecoration(
@@ -57,7 +55,7 @@ class Cart extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(50,0, 0, 0),
+              margin: EdgeInsets.fromLTRB(50, 0, 0, 0),
               width: 100,
               child: FlatButton(
                 splashColor: Colors.white,
@@ -78,35 +76,44 @@ class Cart extends StatelessWidget {
 
   Container buildContainer(listShoe) {
     return Container(
-      child: GridView.builder(
-        padding: EdgeInsets.all(10),
-        itemCount: listShoe.items.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          childAspectRatio: 2,
-          crossAxisSpacing: 100,
-          mainAxisSpacing: 10,
-          crossAxisCount: 1,
-        ),
-        itemBuilder: (context, index) => CartCard(
-          product: listShoe.items[index],
-          press: () {},
-          index: index,
-        ),
-      ),
+      child: StreamBuilder(
+          stream: getUserStreamSnap(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData || snapshot.data.documents.isEmpty) {
+              return Container(
+                alignment: Alignment.center,
+                child: Text(
+                  'Cart is Empty',
+                  style: TextStyle(fontSize: 20, letterSpacing: 3),
+                ),
+              );
+            }
+            return GridView.builder(
+              padding: EdgeInsets.all(10),
+              itemCount: snapshot.data.documents.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 2,
+                crossAxisSpacing: 100,
+                mainAxisSpacing: 10,
+                crossAxisCount: 1,
+              ),
+              itemBuilder: (context, index) => CartCard(
+                snapshot.data.documents[index],
+                () {},
+                index,
+              ),
+            );
+          }),
     );
   }
 
-  Widget buildBody(listShoe) {
-    if (listShoe.items.isEmpty) {
-      return Container(
-        alignment: Alignment.center,
-        child: Text(
-          'Cart is Empty',
-          style: TextStyle(fontSize: 20, letterSpacing: 3),
-        ),
-      );
-    } else {
-      return buildContainer(listShoe);
-    }
+  Stream<QuerySnapshot> getUserStreamSnap() async* {
+    AuthService _auth = new AuthService();
+    final uid = await _auth.getUID();
+    yield* Firestore.instance
+        .collection("shoes")
+        .document(uid)
+        .collection("shoeCart")
+        .snapshots();
   }
 }

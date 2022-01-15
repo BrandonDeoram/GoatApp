@@ -32,7 +32,7 @@ class _RegisterState extends State<Register> {
       body: Column(
         children: [
           Container(
-              margin: EdgeInsets.fromLTRB(30, 13, 0, 0),
+              margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
               height: 250,
               width: 300,
               color: Colors.white,
@@ -43,7 +43,7 @@ class _RegisterState extends State<Register> {
                   children: [
                     //email
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
                     TextFormField(
                       autofocus: false,
@@ -59,11 +59,11 @@ class _RegisterState extends State<Register> {
                     ),
                     //Password
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
                     TextFormField(
                       autofocus: false,
-                       decoration: textInputDec.copyWith(hintText: 'Password'),
+                      decoration: textInputDec.copyWith(hintText: 'Password'),
                       //password doesnt show
                       obscureText: true,
                       validator: (val) =>

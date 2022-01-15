@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sample/model/user.dart';
+import 'package:sample/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -15,6 +16,10 @@ class AuthService {
     //Anytime user sign in or sign out itll let us know
     //(FirebaseUser user) => _userFBU(user) same thing as bellow
     return _auth.onAuthStateChanged.map(_userFBU);
+  }
+  //Getting uid val
+  Future<String> getUID() async {
+    return (await _auth.currentUser()).uid;
   }
 
   //sign in anon
@@ -47,12 +52,15 @@ class AuthService {
     }
   }
 
-  //regist with email & password
+  //register with email & password
   Future registerWEP(String email, String password) async {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
+      //Create a new doc for the user with that uid
+      await DatabaseService(uid: user.uid)
+          .updateUserData('', '', '', '', '', null,0);
       return _userFBU(user);
     } catch (e) {
       //not succesful

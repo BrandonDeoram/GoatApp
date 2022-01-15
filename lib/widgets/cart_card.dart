@@ -1,15 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:provider/provider.dart';
-import 'package:sample/model/products.dart';
-import 'package:sample/notifiers/ProductNotifier.dart';
+
+import 'package:sample/services/auth.dart';
 
 class CartCard extends StatefulWidget {
-  final Product product;
+  final DocumentSnapshot listShoe;
   final Function press;
   final int index;
-  const CartCard({Key key, this.product, this.press, this.index})
-      : super(key: key);
+  const CartCard(this.listShoe, this.press, this.index);
 
   @override
   _CartCardState createState() => _CartCardState();
@@ -18,7 +17,6 @@ class CartCard extends StatefulWidget {
 class _CartCardState extends State<CartCard> {
   @override
   Widget build(BuildContext context) {
-    ProductNotifier listShoe = Provider.of<ProductNotifier>(context);
     ShapeBorder shape;
     return Container(
       height: 120,
@@ -40,7 +38,7 @@ class _CartCardState extends State<CartCard> {
                     width: 280,
                     alignment: Alignment.topLeft,
                     child: Text(
-                      widget.product.price,
+                      widget.listShoe['price'],
                       textScaleFactor: .8,
                     ),
                   ),
@@ -49,8 +47,9 @@ class _CartCardState extends State<CartCard> {
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 140),
                     child: IconButton(
                       splashColor: Colors.blue,
-                      onPressed: () {
-                        listShoe.deleteItem(listShoe.items[widget.index]);
+                      onPressed: () async {
+                        deleteShoe(context);
+                        // listShoe.deleteItem(listShoe.items[widget.index]);
                       },
                       icon: Icon(Icons.delete),
                       iconSize: 20,
@@ -64,7 +63,7 @@ class _CartCardState extends State<CartCard> {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Text(widget.product.name,
+                  child: Text(widget.listShoe['name'],
                       style: TextStyle(color: Colors.black)),
                   alignment: Alignment.bottomCenter,
                 ),
@@ -79,7 +78,7 @@ class _CartCardState extends State<CartCard> {
                 child: Container(
                   height: 300,
                   child: Image.network(
-                    widget.product.assetName,
+                    widget.listShoe['assetName'],
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -87,7 +86,7 @@ class _CartCardState extends State<CartCard> {
               ),
             ),
             Container(
-              child: Text("x" + listShoe.items[widget.index].quantity.toString()),
+              child: Text("x" + widget.listShoe['quantity'].toString()),
               alignment: Alignment.bottomRight,
             ),
           ],
@@ -95,4 +94,37 @@ class _CartCardState extends State<CartCard> {
       ),
     );
   }
+
+  Future deleteShoe(context) async {
+    AuthService _auth = new AuthService();
+    final uid = await _auth.getUID();
+    final doc = Firestore.instance
+        .collection("shoes")
+        .document(uid)
+        .collection("shoeCart")
+        .document(widget.listShoe.documentID);
+    int quantity = widget.listShoe['quantity'];
+    quantity--;
+    //Quantity is >1
+    print('------------------------------------------------');
+    print(widget.listShoe['quantity'].toString());
+    if (widget.listShoe['quantity'] > 1) {
+      doc.updateData({"quantity": quantity});
+    } else {
+      return await doc.delete();
+    }
+  }
 }
+
+//TO:DO Remove Shoe
+// Stream<QuerySnapshot> deleteShoe(DocumentSnapshot listShoe) async* {
+//   AuthService _auth = new AuthService();
+//   final uid = await _auth.getUID();
+
+//   final doc = Firestore.instance
+//       .collection("shoes")
+//       .document(uid)
+//       .collection("shoeCart")
+//       .document(listShoe.documentID);
+//   await doc.delete();
+// }

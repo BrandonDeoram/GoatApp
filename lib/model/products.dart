@@ -19,6 +19,15 @@ class Product {
     this.sizes,
     this.quantity,
   );
+  Map<String, dynamic> toJson() => {
+        'assetName': assetName,
+        'descript': descript,
+        'id': id,
+        'name': name,
+        'price': price,
+        'quantity': quantity,
+        'sizes': sizes
+      };
 }
 
 final List sizes = ["5", "6", "7", "8", "9", "10"];
