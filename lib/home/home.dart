@@ -9,10 +9,9 @@ class Home extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          fontFamily: 'MuseoModerno',
-          primaryColor: Colors.white,
-          accentColor: Colors.black,
-          primarySwatch: Colors.blueGrey,
+          primaryColor: Theme.of(context).primaryColor,
+          accentColor: Colors.white,
+          appBarTheme: AppBarTheme(backgroundColor: Colors.black),
           scaffoldBackgroundColor: Colors.white),
       home: DefaultTabController(
         length: 2,
@@ -29,10 +28,14 @@ class Home extends StatelessWidget {
                   Tab(
                     child: Text(
                       'Discover',
+                      style: Theme.of(context).primaryTextTheme.caption,
                     ),
                   ),
                   Tab(
-                    child: Text("Drops"),
+                    child: Text(
+                      "Drops",
+                      style: Theme.of(context).primaryTextTheme.caption,
+                    ),
                   )
                 ],
               ),

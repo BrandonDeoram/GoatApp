@@ -5,21 +5,22 @@ import 'package:sample/services/database.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  //create a user obj based on FirebaseUser
-  User _userFBU(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
+  //create a user obj based on User
+  UserUID _userFBU(User user) {
+    return user != null ? UserUID(uid: user.uid) : null;
   }
 
   //auth change user stream
-  Stream<User> get user {
+  Stream<UserUID> get user {
     //turning it into our own stream of users instead of firebase user
     //Anytime user sign in or sign out itll let us know
-    //(FirebaseUser user) => _userFBU(user) same thing as bellow
-    return _auth.onAuthStateChanged.map(_userFBU);
+    //(User user) => _userFBU(user) same thing as bellow
+    return _auth.authStateChanges().map(_userFBU);
   }
+
   //Getting uid val
   Future<String> getUID() async {
-    return (await _auth.currentUser()).uid;
+    return (await _auth.currentUser).uid;
   }
 
   //sign in anon
@@ -27,10 +28,10 @@ class AuthService {
     //Interacting with firebase auth to log in anon
     try {
       //making a request using await
-      //Returns a authresult
-      AuthResult result = await _auth.signInAnonymously();
+      //Returns a UserCredential
+      UserCredential result = await _auth.signInAnonymously();
       //After it returns we have access to the user object
-      FirebaseUser user = result.user;
+      User user = result.user;
 
       return _userFBU(user);
     } catch (e) {
@@ -42,9 +43,9 @@ class AuthService {
   //sign in with email and password
   Future signInWEP(String email, String password) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(
+      UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      User user = result.user;
       return _userFBU(user);
     } catch (e) {
       print(e.toString());
@@ -55,12 +56,12 @@ class AuthService {
   //register with email & password
   Future registerWEP(String email, String password) async {
     try {
-      AuthResult result = await _auth.createUserWithEmailAndPassword(
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      FirebaseUser user = result.user;
+      User user = result.user;
       //Create a new doc for the user with that uid
       await DatabaseService(uid: user.uid)
-          .updateUserData('', '', '', '', '', null,0);
+          .updateUserData('', '', '', '', '', null, 0);
       return _userFBU(user);
     } catch (e) {
       //not succesful

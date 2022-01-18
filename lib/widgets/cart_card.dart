@@ -98,18 +98,18 @@ class _CartCardState extends State<CartCard> {
   Future deleteShoe(context) async {
     AuthService _auth = new AuthService();
     final uid = await _auth.getUID();
-    final doc = Firestore.instance
+    final doc = FirebaseFirestore.instance
         .collection("shoes")
-        .document(uid)
+        .doc(uid)
         .collection("shoeCart")
-        .document(widget.listShoe.documentID);
+        .doc(widget.listShoe.id);
     int quantity = widget.listShoe['quantity'];
     quantity--;
     //Quantity is >1
     print('------------------------------------------------');
     print(widget.listShoe['quantity'].toString());
     if (widget.listShoe['quantity'] > 1) {
-      doc.updateData({"quantity": quantity});
+      doc.update({"quantity": quantity});
     } else {
       return await doc.delete();
     }

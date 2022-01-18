@@ -6,25 +6,63 @@ import 'package:sample/notifiers/ProductNotifier.dart';
 import 'package:sample/services/auth.dart';
 import 'package:sample/widgets/cart.dart';
 
-class Details extends StatelessWidget {
+class Details extends StatefulWidget {
   int newIndex;
   static const routeName = '/details';
+  bool cartEmpty = true;
+  bool val = true;
+  String uid;
   Details(this.newIndex);
+
+  @override
+  State<Details> createState() => _DetailsState();
+}
+
+class _DetailsState extends State<Details> {
+  @override
+  void initState() {
+    super.initState();
+    lengthOfCart();
+  }
+
   @override
   Widget build(BuildContext context) {
+    double deviceHeight(BuildContext context) =>
+        MediaQuery.of(context).size.height;
+    double deviceWidth(BuildContext context) =>
+        MediaQuery.of(context).size.width;
     ProductNotifier listShoe = Provider.of<ProductNotifier>(context);
-    print("amoutn in cart : " + lengthOfCart().toString());
+    grabUID();
+
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Cart()));
-              },
-              icon: (lengthOfCart() == true)
-                  ? Icon(Icons.shopping_cart_outlined)
-                  : Icon(Icons.shopping_cart)),
+          StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("shoes")
+                .doc(widget.uid)
+                .collection("shoeCart")
+                .snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
+                print("equal to null");
+                return IconButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Cart()));
+                    },
+                    icon: Icon(Icons.shopping_cart_outlined));
+              } else {
+                print("something in cart");
+                return IconButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Cart()));
+                    },
+                    icon: Icon(Icons.shopping_cart));
+              }
+            },
+          ),
         ],
         elevation: 0,
       ),
@@ -44,7 +82,7 @@ class Details extends StatelessWidget {
                     endIndent: 40,
                   ),
                   Container(
-                    child: Text(products[newIndex].name),
+                    child: Text(products[widget.newIndex].name),
                   ),
                   Divider(
                     color: Colors.black,
@@ -54,7 +92,8 @@ class Details extends StatelessWidget {
                   Container(
                       height: 190,
                       color: Colors.white,
-                      child: Image.network(products[newIndex].assetName)),
+                      child:
+                          Image.network(products[widget.newIndex].assetName)),
                   Container(
                     child: Text('Product Detail'),
                     alignment: Alignment.topLeft,
@@ -67,30 +106,34 @@ class Details extends StatelessWidget {
                   Container(
                     height: 110,
                     child: Text(
-                      products[newIndex].descript,
+                      products[widget.newIndex].descript,
                       style: TextStyle(fontSize: 10),
                       textAlign: TextAlign.start,
                     ),
                   ),
-                  //Size
-                  //products[newIndex].sizes[newIndex]
-
-                  Container(
-                    height: 108,
-                    padding: const EdgeInsets.only(top: 58),
-                    alignment: Alignment.bottomCenter,
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(24),
-                                  topRight: Radius.circular(24))),
-                        ),
-                        BottomBar(newIndex: newIndex, listShoe: listShoe)
-                      ],
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: deviceHeight(context) * 0.2214,
+                    ),
+                    child: Container(
+                      height: 60,
+                      padding:
+                          EdgeInsets.only(top: deviceHeight(context) * .015),
+                      alignment: Alignment.bottomCenter,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(24),
+                                    topRight: Radius.circular(24))),
+                          ),
+                          BottomBar(
+                              newIndex: widget.newIndex, listShoe: listShoe)
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -101,27 +144,45 @@ class Details extends StatelessWidget {
       ),
     );
   }
+
+  grabUID() {
+    getUID().then((String value) {
+      setState(() {
+        widget.uid = value;
+      });
+    });
+  }
 }
 
 //TO:DO
+
 Future<bool> lengthOfCart() async {
   AuthService _auth = new AuthService();
   final uid = await _auth.getUID();
-
-  final _database = Firestore.instance;
-
-  final snapshot = await Firestore.instance
+  final snapshot = await FirebaseFirestore.instance
       .collection("shoes")
-      .document(uid)
+      .doc(uid)
       .collection("shoeCart")
-      .getDocuments();
-  print("length " + snapshot.documents.length.toString());
-  if (snapshot.documents.length == 0) {
-    print(snapshot.documents.length);
+      .get();
+  if (snapshot.docs.length == 0) {
+    print("cart is empty");
+
     return true;
   } else {
+    print("cart is not empty");
     return false;
   }
+}
+
+Future<String> getUID() async {
+  AuthService _auth = await new AuthService();
+  final uid = await _auth.getUID();
+  return Future.value(uid);
+}
+
+void getLengthCart() async {
+  var value = await lengthOfCart();
+  lengthOfCart().then((result) => value = result);
 }
 
 class BottomBar extends StatelessWidget {
@@ -134,7 +195,7 @@ class BottomBar extends StatelessWidget {
   final int newIndex;
   AuthService _auth = new AuthService();
   final ProductNotifier listShoe;
-  final db = Firestore.instance;
+  final db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +225,7 @@ class BottomBar extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(left: 70),
             child: IconButton(
-              onPressed: () async {
+              onPressed: () {
                 // listShoe.add(products[newIndex]);
                 addShoe(context, newIndex);
               },
@@ -181,36 +242,36 @@ class BottomBar extends StatelessWidget {
 Future addShoe(context, int newIndex) async {
   AuthService _auth = new AuthService();
   final uid = await _auth.getUID();
-  final db = Firestore.instance;
+  print("UID" + uid.toString());
+  final db = FirebaseFirestore.instance;
   String id = products[newIndex].id;
-  final doc = Firestore.instance
+  final doc = FirebaseFirestore.instance
       .collection("shoes")
-      .document(uid)
+      .doc(uid)
       .collection("shoeCart")
-      .document(id);
-  DocumentSnapshot getId = await Firestore.instance
+      .doc(id);
+  DocumentSnapshot getId = await FirebaseFirestore.instance
       .collection("shoes")
-      .document(uid)
+      .doc(uid)
       .collection("shoeCart")
-      .document(id)
+      .doc(id)
       .get();
-  int quantity = getId.data['quantity'];
-  quantity++;
-  //if this shoe already exist then add 1 to quantity
-  // print("ID:-------------------------------------" + getId.data['id']);
+  //Quantity: getId['quantity'] works if its already in there | problem seems to be when its not there
+  // print("Quantity RO:" + getId['quantity'].toString());
+
+  // print("QUANTITY:" + getId['quantity'].toString());
+
   if (getId.exists) {
-    doc.updateData({'quantity': quantity});
+    int quantity = getId['quantity'];
+    quantity++;
+    doc.update({'quantity': quantity});
     print('already in cart');
   } else {
     await db
         .collection('shoes')
-        .document(uid)
+        .doc(uid)
         .collection('shoeCart')
-        .document(id)
-        .setData(products[newIndex].toJson());
+        .doc(id)
+        .set(products[newIndex].toJson());
   }
-
-  //else add shoe
-
-  //Quantity is >1
 }

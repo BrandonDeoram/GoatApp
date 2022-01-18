@@ -1,13 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sample/model/products.dart';
 import 'package:sample/notifiers/ProductNotifier.dart';
 import 'package:sample/services/auth.dart';
 import 'package:sample/widgets/cart_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 // ignore: must_be_immutable
 class Cart extends StatelessWidget {
@@ -19,15 +15,13 @@ class Cart extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 0.1,
         title: Container(
-          padding: const EdgeInsets.only(left: 75),
-          child: Text(
-            'Cart',
-            style: TextStyle(letterSpacing: 2, fontStyle: FontStyle.normal),
-          ),
+          child:
+              Text('Cart', style: Theme.of(context).appBarTheme.titleTextStyle),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: buildContainer(listShoe),
       bottomNavigationBar: Container(
@@ -45,22 +39,45 @@ class Cart extends StatelessWidget {
           children: [
             Container(
               width: 100,
-              child: Consumer<ProductNotifier>(
-                builder: (context, pro, child) {
-                  return Text(
-                    "Total: \$" "$total",
-                    style: TextStyle(color: Colors.white),
-                  );
+              child: StreamBuilder(
+                stream: getUserStreamSnap(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    double total = 0;
+                    List<int> quan = [];
+                    List<String> list = [];
+                    snapshot.data.docs.forEach((element) {
+                      list.add(element.get('price'));
+                      quan.add(element.get('quantity'));
+                    });
+                    for (int i = 0; i < list.length; i++) {
+                      total += (double.parse(
+                              list[i].replaceAll(new RegExp(r'C\$'), ''))) *
+                          quan[i];
+                    }
+
+                    return Text(
+                      "Total: \$" "$total",
+                      style: TextStyle(color: Colors.white),
+                    );
+                  }
+                  return Text("0.00");
                 },
               ),
             ),
+            /*
+            Text(
+                    "Total: \$" "$total",
+                    style: TextStyle(color: Colors.white),
+                  );
+            */
             Container(
               margin: EdgeInsets.fromLTRB(50, 0, 0, 0),
               width: 100,
               child: FlatButton(
                 splashColor: Colors.white,
                 onPressed: () {
-                  listShoe.clearCart();
+                  clearCart();
                 },
                 child: Text(
                   "Clear Cart",
@@ -78,8 +95,8 @@ class Cart extends StatelessWidget {
     return Container(
       child: StreamBuilder(
           stream: getUserStreamSnap(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData || snapshot.data.documents.isEmpty) {
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData || snapshot.data.size == 0) {
               return Container(
                 alignment: Alignment.center,
                 child: Text(
@@ -88,19 +105,22 @@ class Cart extends StatelessWidget {
                 ),
               );
             }
-            return GridView.builder(
-              padding: EdgeInsets.all(10),
-              itemCount: snapshot.data.documents.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 2,
-                crossAxisSpacing: 100,
-                mainAxisSpacing: 10,
-                crossAxisCount: 1,
-              ),
-              itemBuilder: (context, index) => CartCard(
-                snapshot.data.documents[index],
-                () {},
-                index,
+            return Container(
+              height: 500,
+              child: GridView.builder(
+                padding: EdgeInsets.all(25),
+                itemCount: snapshot.data.docs.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 2,
+                  crossAxisSpacing: 100,
+                  mainAxisSpacing: 10,
+                  crossAxisCount: 1,
+                ),
+                itemBuilder: (context, index) => CartCard(
+                  snapshot.data.docs[index],
+                  () {},
+                  index,
+                ),
               ),
             );
           }),
@@ -110,10 +130,23 @@ class Cart extends StatelessWidget {
   Stream<QuerySnapshot> getUserStreamSnap() async* {
     AuthService _auth = new AuthService();
     final uid = await _auth.getUID();
-    yield* Firestore.instance
+    yield* FirebaseFirestore.instance
         .collection("shoes")
-        .document(uid)
+        .doc(uid)
         .collection("shoeCart")
         .snapshots();
+  }
+
+  Future clearCart() async {
+    AuthService _auth = new AuthService();
+    final uid = await _auth.getUID();
+    final collection = await FirebaseFirestore.instance
+        .collection("shoes")
+        .doc(uid)
+        .collection("shoeCart")
+        .get();
+    for (var doc in collection.docs) {
+      await doc.reference.delete();
+    }
   }
 }

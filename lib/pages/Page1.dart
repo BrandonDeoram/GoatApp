@@ -11,7 +11,7 @@ class Discover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(3),
+      margin: const EdgeInsets.all(10),
       child: GridView.builder(
         padding: EdgeInsets.all(10),
         itemCount: products.length,
@@ -23,10 +23,8 @@ class Discover extends StatelessWidget {
         itemBuilder: (context, index) => ShoeCard(
             product: products[index],
             press: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Details(index)));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Details(index)));
             }),
       ),
     );

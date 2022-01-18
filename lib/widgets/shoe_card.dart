@@ -13,7 +13,7 @@ class ShoeCard extends StatelessWidget {
     return SizedBox(
       height: height,
       child: Card(
-        elevation: 0.2,
+        elevation: .5,
         color: Colors.white,
         // This ensures that the Card's children (including the ink splash) are clipped correctly.
         clipBehavior: Clip.antiAlias,
@@ -28,7 +28,7 @@ class ShoeCard extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(0, 123, 0, 0),
+              margin: EdgeInsets.fromLTRB(0, 150, 0, 0),
               child: Text(product.name, style: TextStyle(color: Colors.black)),
               alignment: Alignment.center,
             ),
