@@ -65,12 +65,6 @@ class Cart extends StatelessWidget {
                 },
               ),
             ),
-            /*
-            Text(
-                    "Total: \$" "$total",
-                    style: TextStyle(color: Colors.white),
-                  );
-            */
             Container(
               margin: EdgeInsets.fromLTRB(50, 0, 0, 0),
               width: 100,

@@ -49,7 +49,6 @@ class _CartCardState extends State<CartCard> {
                       splashColor: Colors.blue,
                       onPressed: () async {
                         deleteShoe(context);
-                        // listShoe.deleteItem(listShoe.items[widget.index]);
                       },
                       icon: Icon(Icons.delete),
                       iconSize: 20,
@@ -105,9 +104,6 @@ class _CartCardState extends State<CartCard> {
         .doc(widget.listShoe.id);
     int quantity = widget.listShoe['quantity'];
     quantity--;
-    //Quantity is >1
-    print('------------------------------------------------');
-    print(widget.listShoe['quantity'].toString());
     if (widget.listShoe['quantity'] > 1) {
       doc.update({"quantity": quantity});
     } else {

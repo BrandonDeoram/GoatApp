@@ -45,7 +45,6 @@ class _DetailsState extends State<Details> {
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
-                print("equal to null");
                 return IconButton(
                     onPressed: () {
                       Navigator.push(context,
@@ -53,7 +52,6 @@ class _DetailsState extends State<Details> {
                     },
                     icon: Icon(Icons.shopping_cart_outlined));
               } else {
-                print("something in cart");
                 return IconButton(
                     onPressed: () {
                       Navigator.push(context,
@@ -113,7 +111,7 @@ class _DetailsState extends State<Details> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                      top: deviceHeight(context) * 0.2214,
+                      top: deviceHeight(context) * 0.204,
                     ),
                     child: Container(
                       height: 60,
@@ -172,7 +170,7 @@ Future<bool> lengthOfCart() async {
     print("cart is not empty");
     return false;
   }
-}
+} 
 
 Future<String> getUID() async {
   AuthService _auth = await new AuthService();
@@ -226,7 +224,6 @@ class BottomBar extends StatelessWidget {
             padding: EdgeInsets.only(left: 70),
             child: IconButton(
               onPressed: () {
-                // listShoe.add(products[newIndex]);
                 addShoe(context, newIndex);
               },
               icon: Icon(Icons.add_shopping_cart),
@@ -256,10 +253,6 @@ Future addShoe(context, int newIndex) async {
       .collection("shoeCart")
       .doc(id)
       .get();
-  //Quantity: getId['quantity'] works if its already in there | problem seems to be when its not there
-  // print("Quantity RO:" + getId['quantity'].toString());
-
-  // print("QUANTITY:" + getId['quantity'].toString());
 
   if (getId.exists) {
     int quantity = getId['quantity'];

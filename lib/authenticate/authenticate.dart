@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sample/authenticate/login_screen.dart';
 import 'package:sample/authenticate/register.dart';
-import 'package:sample/authenticate/sign_in.dart';
 
 class Authenticate extends StatefulWidget {
   @override
@@ -8,7 +8,7 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  bool showSignIn = false;
+  bool showSignIn = true;
   void toggleView() {
     setState(() {
       showSignIn = !showSignIn;
@@ -18,7 +18,7 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     if (showSignIn) {
-      return SignIn(toggleView: toggleView);
+      return LoginScreen(toggleView: toggleView);
     } else {
       return Register(toggleView: toggleView);
     }

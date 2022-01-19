@@ -9,9 +9,18 @@ class Home extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primaryColor: Theme.of(context).primaryColor,
           accentColor: Colors.white,
-          appBarTheme: AppBarTheme(backgroundColor: Colors.black),
+          fontFamily: 'Roboto',
+          appBarTheme: AppBarTheme(
+              backgroundColor: Colors.black,
+              centerTitle: true,
+              titleTextStyle:
+                  TextStyle(color: Colors.white, fontFamily: 'Roboto')),
+          primaryTextTheme: TextTheme(
+            headline5: TextStyle(
+                color: Colors.red, fontFamily: 'Roboto', fontSize: 10),
+            caption: TextStyle(color: Colors.white, fontSize: 14),
+          ),
           scaffoldBackgroundColor: Colors.white),
       home: DefaultTabController(
         length: 2,
@@ -26,10 +35,8 @@ class Home extends StatelessWidget {
                 onTap: (_) {},
                 tabs: <Widget>[
                   Tab(
-                    child: Text(
-                      'Discover',
-                      style: Theme.of(context).primaryTextTheme.caption,
-                    ),
+                    child: Text('Discover',
+                        style: Theme.of(context).primaryTextTheme.caption),
                   ),
                   Tab(
                     child: Text(

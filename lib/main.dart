@@ -27,17 +27,15 @@ class MyApp extends StatelessWidget {
           ],
           child: MaterialApp(
             theme: ThemeData(
-                fontFamily: 'MuseoModerno',
+                fontFamily: 'Roboto',
                 appBarTheme: AppBarTheme(
                     backgroundColor: Colors.black,
                     centerTitle: true,
-                    titleTextStyle: TextStyle(
-                        color: Colors.white, fontFamily: 'MuseoModerno')),
+                    titleTextStyle:
+                        TextStyle(color: Colors.white, fontFamily: 'Roboto')),
                 primaryTextTheme: TextTheme(
                   headline5: TextStyle(
-                      color: Colors.red,
-                      fontFamily: 'MuseoModerno',
-                      fontSize: 10),
+                      color: Colors.red, fontFamily: 'Roboto', fontSize: 10),
                   caption: TextStyle(color: Colors.white, fontSize: 14),
                 ),
                 scaffoldBackgroundColor: Colors.white),

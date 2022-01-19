@@ -1,133 +1,167 @@
 import 'package:flutter/material.dart';
+import 'package:sample/animation/fade_animation.dart';
 import 'package:sample/services/auth.dart';
 import 'package:sample/shared/const.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
   Register({this.toggleView});
+  String email = '';
+  String password = '';
   @override
   _RegisterState createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
-  final AuthService _auth = AuthService();
-  final _formKey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
-  String error = '';
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
+    final AuthService _auth = AuthService();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0.0,
-        title: Center(
-          child: Text(
-            'DAPPER',
-            style: TextStyle(letterSpacing: 5, color: Colors.white),
-          ),
-        ),
-      ),
-      body: Column(
+      body: Stack(
         children: [
           Container(
-              margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
-              height: 250,
-              width: 300,
-              color: Colors.white,
-              child: Form(
-                //keeping track of the state of the form so we can validate
-                key: _formKey,
+            height: height,
+            width: width,
+            child: FadeAnimation(
+                1,
+                Container(
+                  child: Image.network(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Auto_Racing_White_Black.svg/2560px-Auto_Racing_White_Black.svg.png',
+                    fit: BoxFit.fill,
+                  ),
+                )),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                height: 150,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
-                  children: [
-                    //email
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    FadeAnimation(
+                        1.5,
+                        Text(
+                          "Register",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30),
+                        )),
                     SizedBox(
-                      height: 10.0,
+                      height: 30,
                     ),
-                    TextFormField(
-                      autofocus: false,
-                      //Onchanged essentially each time a user enters a space or extra letter it enters that val
-                      decoration: textInputDec.copyWith(hintText: 'Email'),
-
-                      validator: (val) => val.isEmpty ? 'Enter email' : null,
-                      onChanged: (val) {
-                        setState(() {
-                          email = val;
-                        });
-                      },
-                    ),
-                    //Password
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    TextFormField(
-                      autofocus: false,
-                      decoration: textInputDec.copyWith(hintText: 'Password'),
-                      //password doesnt show
-                      obscureText: true,
-                      validator: (val) =>
-                          val.length < 6 ? 'Enter password 6+ char long' : null,
-
-                      onChanged: (val) {
-                        setState(() {
-                          password = val;
-                        });
-                      },
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RaisedButton(
-                          padding: EdgeInsets.only(top: 0),
-                          elevation: 1,
-                          color: Colors.white,
-                          child: Text(
-                            'Register',
-                            style: TextStyle(color: Colors.black),
+                    FadeAnimation(
+                        1.7,
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  blurRadius: 20,
+                                  offset: Offset(0, 10),
+                                )
+                              ]),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey[200]))),
+                                child: TextField(
+                                  onChanged: (val) {
+                                    setState(() {
+                                      widget.email = val;
+                                    });
+                                  },
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Email",
+                                      hintStyle: TextStyle(color: Colors.grey)),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                child: TextField(
+                                  onChanged: (val) {
+                                    setState(() {
+                                      widget.password = val;
+                                    });
+                                  },
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Password",
+                                      hintStyle: TextStyle(color: Colors.grey)),
+                                ),
+                              )
+                            ],
                           ),
-                          onPressed: () async {
-                            if (_formKey.currentState.validate()) {
-                              //getting null if error  or user
-                              dynamic result =
-                                  await _auth.registerWEP(email, password);
+                        )),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    FadeAnimation(
+                        1.9,
+                        InkWell(
+                          onTap: () async {
+                            if (widget.email.isNotEmpty &&
+                                widget.password.isNotEmpty) {
+                              dynamic result = await _auth.registerWEP(
+                                  widget.email, widget.password);
                               if (result == null) {
-                                setState(() {
-                                  error = 'supply valid email';
-                                });
+                                print('something went wrong signing up');
                               }
+                            } else {
+                              print('error');
                             }
                           },
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: RaisedButton(
-                            elevation: 1,
-                            color: Colors.white,
-                            child: Text(
-                              'Sign in',
-                              style: TextStyle(color: Colors.black),
+                          child: Container(
+                            height: 50,
+                            margin: EdgeInsets.symmetric(horizontal: 60),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.white),
+                            child: Center(
+                              child: Text("Register",
+                                  style: TextStyle(color: Colors.black)),
                             ),
-                            onPressed: () {
-                              widget.toggleView();
-                            },
                           ),
-                        ),
-                      ],
+                        )),
+                    SizedBox(
+                      height: 30,
                     ),
-                    Container(
-                      child: Text(
-                        error,
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ),
+                    FadeAnimation(
+                        2,
+                        InkWell(
+                          onTap: () {
+                            widget.toggleView();
+                          },
+                          child: Center(
+                              child: Text(
+                            "Already have an account ?",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                        )),
                   ],
                 ),
-              )),
+              )
+            ],
+          ),
         ],
       ),
     );
