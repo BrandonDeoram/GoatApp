@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sample/services/auth.dart';
 
 class DatabaseService {
@@ -8,6 +10,9 @@ class DatabaseService {
 
   final CollectionReference shoeCart =
       FirebaseFirestore.instance.collection('shoes');
+  final CollectionReference db =
+      FirebaseFirestore.instance.collection('profile');
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future updateUserData(
     String assetName,
@@ -50,5 +55,21 @@ class DatabaseService {
     AuthService _auth = await new AuthService();
     final uid = await _auth.getUID();
     return Future.value(uid);
+  }
+
+  //Profile
+  void addName(String name) {
+    User user = _auth.currentUser;
+    db.doc(user.uid).set({'name': name});
+  }
+
+  Future<String> getName() async {
+    User user = _auth.currentUser;
+    var document = await db.doc(user.uid).get();
+    if (document.exists) {
+      var name = document.get('name');
+      return name;
+    }
+    return "";
   }
 }

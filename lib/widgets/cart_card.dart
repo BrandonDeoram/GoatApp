@@ -61,7 +61,7 @@ class _CartCardState extends State<CartCard> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                   child: Text(widget.listShoe['name'],
                       style: TextStyle(color: Colors.black)),
                   alignment: Alignment.bottomCenter,
@@ -75,7 +75,7 @@ class _CartCardState extends State<CartCard> {
               padding: EdgeInsets.fromLTRB(75, 0, 10, 0),
               child: InkWell(
                 child: Container(
-                  height: 300,
+                  height: 100,
                   child: Image.network(
                     widget.listShoe['assetName'],
                     fit: BoxFit.contain,
@@ -85,6 +85,7 @@ class _CartCardState extends State<CartCard> {
               ),
             ),
             Container(
+              padding: EdgeInsets.all(10),
               child: Text("x" + widget.listShoe['quantity'].toString()),
               alignment: Alignment.bottomRight,
             ),

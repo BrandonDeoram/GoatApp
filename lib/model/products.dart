@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Product {
   //Somehting that every product must contain
   final String assetName;
@@ -165,4 +163,47 @@ List<Product> addidasSneakers = [
       'c13',
       sizes,
       0),
+];
+
+List<Product> top5shoes = [
+  Product(
+      'https://image.goat.com/crop/1800/attachments/product_template_additional_pictures/images/062/992/408/original/784379_01.jpg.jpeg?1636560091',
+      'Air Jordan 1 Retro High OG Patent Bred\'s',
+      'C\$313',
+      'The Air Jordan 1 Retro High OG Patent Bred treats the iconic colorway to a glossy makeover. Aside from the shoes patent leather construction, the essential design DNA remains intact. The upper pairs basic black paneling with contrasting hits of Varsity Red on the toe box, Swoosh, heel overlay and collar flap. A woven Nike tag adorns the black nylon tongue, while a Wings logo is stamped on the lateral collar. The high-top rides on a sturdy rubber cupsole, enhanced with an Air-sole unit encapsulated in lightweight polyurethane',
+      'c11',
+      sizes,
+      1),
+  Product(
+      'https://image.goat.com/crop/1800/attachments/product_template_additional_pictures/images/062/717/860/original/823956_01.jpg.jpeg?1636053290',
+      'Air Jordan 4 Retro GS Red Thunder',
+      'C\$227',
+      'The Air Jordan 5 Retro SE ‘Top 3’ combines design elements from a trio of the silhouette’s OG releases. The nubuck upper is drawn from the Black/Metallic Silver colorway, complete with lace locks, quarter panel netting and Nike Air branding on the heel. The embroidered ‘23’ is taken from the Fire Red colorway, with that shoe’s red midsole mashed up with metallic silver shark-tooth detailing. Finally, the purple tongue is lifted from the ‘Grape’ Air Jordan 5, featuring a teal Jumpman front and center.',
+      'c12',
+      sizes,
+      1),
+  Product(
+      'https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/064/686/945/original/819011_01.jpg.jpeg?1639411397',
+      'Air Jordan 13 Retro Court Purple',
+      'C\$247',
+      'The Air Jordan 5 Retro SE ‘Top 3’ combines design elements from a trio of the silhouette’s OG releases. The nubuck upper is drawn from the Black/Metallic Silver colorway, complete with lace locks, quarter panel netting and Nike Air branding on the heel. The embroidered ‘23’ is taken from the Fire Red colorway, with that shoe’s red midsole mashed up with metallic silver shark-tooth detailing. Finally, the purple tongue is lifted from the ‘Grape’ Air Jordan 5, featuring a teal Jumpman front and center.',
+      'c13',
+      sizes,
+      1),
+  Product(
+      'https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/052/164/890/original/705164_01.jpg.jpeg?1616511952',
+      'Air Jordan 5 Retro Stealth 2.0',
+      'C\$271',
+      'The Air Jordan 5 Retro SE ‘Top 3’ combines design elements from a trio of the silhouette’s OG releases. The nubuck upper is drawn from the Black/Metallic Silver colorway, complete with lace locks, quarter panel netting and Nike Air branding on the heel. The embroidered ‘23’ is taken from the Fire Red colorway, with that shoe’s red midsole mashed up with metallic silver shark-tooth detailing. Finally, the purple tongue is lifted from the ‘Grape’ Air Jordan 5, featuring a teal Jumpman front and center.',
+      'c13',
+      sizes,
+      1),
+  Product(
+      'https://image.goat.com/crop/750/attachments/product_template_additional_pictures/images/064/686/945/original/819011_01.jpg.jpeg?1639411397',
+      'Air Jordan 1 Retro High OG Dark Mocha',
+      'C\$568',
+      'The Air Jordan 5 Retro SE ‘Top 3’ combines design elements from a trio of the silhouette’s OG releases. The nubuck upper is drawn from the Black/Metallic Silver colorway, complete with lace locks, quarter panel netting and Nike Air branding on the heel. The embroidered ‘23’ is taken from the Fire Red colorway, with that shoe’s red midsole mashed up with metallic silver shark-tooth detailing. Finally, the purple tongue is lifted from the ‘Grape’ Air Jordan 5, featuring a teal Jumpman front and center.',
+      'c13',
+      sizes,
+      1),
 ];

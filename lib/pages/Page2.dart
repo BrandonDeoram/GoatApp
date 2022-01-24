@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sample/widgets/clothing_drop.dart';
+import 'package:sample/scrollableCards/top5.dart';
 import 'package:sample/widgets/graphics_tees.dart';
 import 'package:sample/widgets/just_dropped.dart';
-import 'package:sample/widgets/long_cards.dart';
 
 class Drops extends StatelessWidget {
   Drops();
   @override
   Widget build(BuildContext context) {
+    //Child to aspect ration for spacing between them
     return Container(
       margin: EdgeInsets.fromLTRB(2, 0, 0, 0),
       color: Colors.white,
@@ -33,12 +33,13 @@ class Drops extends StatelessWidget {
           SliverPadding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             sliver: SliverGrid.count(
+              childAspectRatio: 2,
               crossAxisSpacing: 4,
               mainAxisSpacing: 0,
               crossAxisCount: 1,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
                   child: Graphic(),
                 ),
               ],
@@ -51,11 +52,9 @@ class Drops extends StatelessWidget {
               mainAxisSpacing: 0,
               crossAxisCount: 1,
               children: <Widget>[
-                Container(
-                  height: 20,
-                  child: Card(
-                    margin: EdgeInsets.fromLTRB(10, 0, 10, 100),
-                  ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                  child: Top5(),
                 ),
               ],
             ),

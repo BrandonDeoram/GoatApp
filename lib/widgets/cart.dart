@@ -18,9 +18,10 @@ class Cart extends StatelessWidget {
         centerTitle: true,
         elevation: 0.1,
         title: Container(
-          child:
-              Text('Cart', style: Theme.of(context).appBarTheme.titleTextStyle),
-        ),
+            child: Text(
+          'Cart',
+          style: TextStyle(fontSize: 25, letterSpacing: 2),
+        )),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
       body: buildContainer(listShoe),

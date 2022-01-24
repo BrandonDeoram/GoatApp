@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample/home/wrapper.dart';
+import 'package:sample/model/products.dart';
 import 'package:sample/model/user.dart';
 import 'package:sample/pages/details_page.dart';
 import 'package:sample/services/auth.dart';
@@ -19,6 +20,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<Product> list = [];
     return StreamProvider<UserUID>.value(
       value: AuthService().user,
       child: MultiProvider(
@@ -32,10 +34,11 @@ class MyApp extends StatelessWidget {
                     backgroundColor: Colors.black,
                     centerTitle: true,
                     titleTextStyle:
-                        TextStyle(color: Colors.white, fontFamily: 'Roboto')),
+                        TextStyle(color: Colors.white, fontFamily: 'Robot')),
                 primaryTextTheme: TextTheme(
+                  //Drops
                   headline5: TextStyle(
-                      color: Colors.red, fontFamily: 'Roboto', fontSize: 10),
+                      color: Colors.black, fontFamily: 'Roboto', fontSize: 10),
                   caption: TextStyle(color: Colors.white, fontSize: 14),
                 ),
                 scaffoldBackgroundColor: Colors.white),
@@ -43,7 +46,7 @@ class MyApp extends StatelessWidget {
             routes: <String, WidgetBuilder>{
               Discover.routeName: (ctx) => Discover(),
               BottomItems.routeName: (ctx) => BottomItems(),
-              Details.routeName: (ctx) => Details(index),
+              Details.routeName: (ctx) => Details(list, index),
             },
           )),
     );

@@ -79,4 +79,12 @@ class AuthService {
       return null;
     }
   }
+
+  Future<String> getCurrentEmail() async {
+    User user = _auth.currentUser;
+    if (user != null) {
+      return await user.email;
+    }
+    return await "";
+  }
 }

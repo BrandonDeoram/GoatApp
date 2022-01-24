@@ -23,8 +23,10 @@ class Discover extends StatelessWidget {
         itemBuilder: (context, index) => ShoeCard(
             product: products[index],
             press: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Details(index)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Details(products, index)));
             }),
       ),
     );

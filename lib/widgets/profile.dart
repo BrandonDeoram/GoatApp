@@ -1,13 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:sample/services/auth.dart';
+import 'package:sample/services/database.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   Profile();
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
   final AuthService _auth = AuthService();
+
+  String email = '';
+  String name = '';
   @override
   Widget build(BuildContext context) {
+    _auth.getCurrentEmail().then((String val) {
+      setState(() {
+        this.email = val;
+      });
+    });
+
+    DatabaseService().getName().then((value) {
+      name = value;
+    });
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         elevation: 1,
         title: Center(
           child: Text(
@@ -15,13 +37,16 @@ class Profile extends StatelessWidget {
             style: TextStyle(letterSpacing: 3),
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         actions: <Widget>[
           FlatButton.icon(
-            icon: Icon(Icons.person),
+            icon: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
             label: Text(
               'logout',
-              style: TextStyle(fontSize: 10),
+              style: TextStyle(fontSize: 10, color: Colors.white),
             ),
             onPressed: () async {
               await _auth.signOutAnon();
@@ -43,18 +68,39 @@ class Profile extends StatelessWidget {
                         radius: 50,
                       )),
                 ),
-                Container(
+                Padding(
                   padding: const EdgeInsets.only(top: 5),
-                  child: Text(
-                    'Brandon Deoram',
-                    style: TextStyle(letterSpacing: 3),
-                  ),
+                  child: this.name != ""
+                      ? Text(
+                          this.name,
+                          style: TextStyle(letterSpacing: 3),
+                        )
+                      : Container(
+                          padding: EdgeInsets.only(top: 10),
+                          height: 28,
+                          width: 130,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: Colors.grey[200])),
+                          child: TextField(
+                            textAlign: TextAlign.center,
+                            onSubmitted: (value) {
+                              setState(() {
+                                this.name = value;
+                                DatabaseService().addName(name);
+                              });
+                            },
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "User Name"),
+                          ),
+                        ),
                 ),
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(10, 50, 0, 0),
+            padding: EdgeInsets.fromLTRB(15, 30, 0, 0),
             child: Column(
               children: <Widget>[
                 Container(
@@ -62,7 +108,7 @@ class Profile extends StatelessWidget {
                     children: <Widget>[
                       Icon(Icons.email),
                       Text(
-                        'brandondeoram8931@gmail.com',
+                        this.email,
                         style: TextStyle(letterSpacing: 1, fontSize: 12),
                       ),
                     ],

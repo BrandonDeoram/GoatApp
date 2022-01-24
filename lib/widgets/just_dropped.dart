@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sample/model/products.dart';
-import 'package:sample/model/products.dart';
 import 'package:sample/widgets/shoe_card.dart';
 import 'shoe_card.dart';
 
@@ -9,14 +8,17 @@ class JustDropped extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
-          child: Text('Incoming'),
-          padding: EdgeInsets.fromLTRB(0, 0, 270, 0),
+          child: Text(
+            'Incoming',
+            style: Theme.of(context).primaryTextTheme.headline5,
+          ),
+          padding: EdgeInsets.fromLTRB(0, 40, 320, 0),
         ),
         Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(12),
           color: Colors.white,
           height: 200,
           width: 500,

@@ -17,8 +17,12 @@ class Home extends StatelessWidget {
               titleTextStyle:
                   TextStyle(color: Colors.white, fontFamily: 'Roboto')),
           primaryTextTheme: TextTheme(
+            //Drops
             headline5: TextStyle(
-                color: Colors.red, fontFamily: 'Roboto', fontSize: 10),
+                color: Colors.black,
+                fontFamily: 'Roboto',
+                fontSize: 15,
+                letterSpacing: 1),
             caption: TextStyle(color: Colors.white, fontSize: 14),
           ),
           scaffoldBackgroundColor: Colors.white),

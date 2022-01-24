@@ -12,10 +12,14 @@ class Graphic extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
-          child: Text('Brands'),
-          padding: EdgeInsets.fromLTRB(0, 0, 280, 0),
+          child: Text(
+            'Brands',
+            style: Theme.of(context).primaryTextTheme.headline5,
+          ),
+          padding: EdgeInsets.fromLTRB(0, 0, 340, 0),
         ),
         Container(
+          padding: EdgeInsets.all(5),
           height: 150,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,

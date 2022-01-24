@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +7,7 @@ import 'package:sample/model/products.dart';
 import 'package:sample/notifiers/ProductNotifier.dart';
 import 'package:sample/services/auth.dart';
 import 'package:sample/widgets/cart.dart';
+import 'package:sizer/sizer.dart';
 
 class Details extends StatefulWidget {
   int newIndex;
@@ -12,7 +15,8 @@ class Details extends StatefulWidget {
   bool cartEmpty = true;
   bool val = true;
   String uid;
-  Details(this.newIndex);
+  final List<Product> list;
+  Details(this.list, this.newIndex);
 
   @override
   State<Details> createState() => _DetailsState();
@@ -27,10 +31,14 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
-    double deviceHeight(BuildContext context) =>
-        MediaQuery.of(context).size.height;
+    double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth(BuildContext context) =>
         MediaQuery.of(context).size.width;
+    var padding = MediaQuery.of(context).viewPadding;
+    double aph = MediaQuery.of(context).padding.top + kToolbarHeight;
+    double height1 = deviceHeight - padding.top - padding.bottom - aph;
+
+    double newh = WidgetsBinding.instance.window.physicalSize.height;
     ProductNotifier listShoe = Provider.of<ProductNotifier>(context);
     grabUID();
 
@@ -65,76 +73,68 @@ class _DetailsState extends State<Details> {
         elevation: 0,
       ),
       body: Container(
-        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-        color: Colors.white,
+        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(2, 2, 2, 0),
+          padding: EdgeInsets.fromLTRB(2, 2, 2, 0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Divider(
-                    color: Colors.black,
-                    indent: 50,
-                    endIndent: 40,
+              Divider(
+                color: Colors.black,
+                indent: 50,
+                endIndent: 40,
+              ),
+              Container(
+                child: Text(widget.list[widget.newIndex].name),
+              ),
+              Divider(
+                color: Colors.black,
+                indent: 50,
+                endIndent: 40,
+              ),
+              Container(
+                  height: deviceHeight * 0.28,
+                  color: Colors.white,
+                  child: Image.network(widget.list[widget.newIndex].assetName)),
+              Container(
+                child: Text('Product Detail'),
+                alignment: Alignment.topLeft,
+              ),
+              Container(
+                child: Divider(
+                  endIndent: 240,
+                ),
+              ),
+              Container(
+                child: Text(
+                  widget.list[widget.newIndex].descript,
+                  style: TextStyle(fontSize: 12),
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: deviceHeight * 0.31,
                   ),
-                  Container(
-                    child: Text(products[widget.newIndex].name),
-                  ),
-                  Divider(
-                    color: Colors.black,
-                    indent: 50,
-                    endIndent: 40,
-                  ),
-                  Container(
-                      height: 190,
-                      color: Colors.white,
-                      child:
-                          Image.network(products[widget.newIndex].assetName)),
-                  Container(
-                    child: Text('Product Detail'),
-                    alignment: Alignment.topLeft,
-                  ),
-                  Container(
-                    child: Divider(
-                      endIndent: 240,
+                  child: Container(
+                    height: 60,
+                    padding: EdgeInsets.only(top: 0),
+                    alignment: Alignment.bottomCenter,
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(24),
+                                  topRight: Radius.circular(24))),
+                        ),
+                        BottomBar(newIndex: widget.newIndex, list: widget.list)
+                      ],
                     ),
                   ),
-                  Container(
-                    height: 110,
-                    child: Text(
-                      products[widget.newIndex].descript,
-                      style: TextStyle(fontSize: 10),
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: deviceHeight(context) * 0.204,
-                    ),
-                    child: Container(
-                      height: 60,
-                      padding:
-                          EdgeInsets.only(top: deviceHeight(context) * .015),
-                      alignment: Alignment.bottomCenter,
-                      child: Stack(
-                        children: <Widget>[
-                          Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(24),
-                                    topRight: Radius.circular(24))),
-                          ),
-                          BottomBar(
-                              newIndex: widget.newIndex, listShoe: listShoe)
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ],
           ),
@@ -170,7 +170,7 @@ Future<bool> lengthOfCart() async {
     print("cart is not empty");
     return false;
   }
-} 
+}
 
 Future<String> getUID() async {
   AuthService _auth = await new AuthService();
@@ -187,12 +187,12 @@ class BottomBar extends StatelessWidget {
   BottomBar({
     Key key,
     @required this.newIndex,
-    @required this.listShoe,
+    @required this.list,
   }) : super(key: key);
 
   final int newIndex;
   AuthService _auth = new AuthService();
-  final ProductNotifier listShoe;
+  final List<Product> list;
   final db = FirebaseFirestore.instance;
 
   @override
@@ -215,7 +215,7 @@ class BottomBar extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.only(left: 100),
               child: Text(
-                products[newIndex].price,
+                list[newIndex].price,
                 style: TextStyle(color: Colors.white, letterSpacing: 2),
               ),
             ),
@@ -224,7 +224,7 @@ class BottomBar extends StatelessWidget {
             padding: EdgeInsets.only(left: 70),
             child: IconButton(
               onPressed: () {
-                addShoe(context, newIndex);
+                addShoe(context, this.list, newIndex);
               },
               icon: Icon(Icons.add_shopping_cart),
               color: Colors.white,
@@ -236,12 +236,12 @@ class BottomBar extends StatelessWidget {
   }
 }
 
-Future addShoe(context, int newIndex) async {
+Future addShoe(context, List<Product> list, int newIndex) async {
   AuthService _auth = new AuthService();
   final uid = await _auth.getUID();
   print("UID" + uid.toString());
   final db = FirebaseFirestore.instance;
-  String id = products[newIndex].id;
+  String id = list[newIndex].id;
   final doc = FirebaseFirestore.instance
       .collection("shoes")
       .doc(uid)
@@ -265,6 +265,6 @@ Future addShoe(context, int newIndex) async {
         .doc(uid)
         .collection('shoeCart')
         .doc(id)
-        .set(products[newIndex].toJson());
+        .set(list[newIndex].toJson());
   }
 }
