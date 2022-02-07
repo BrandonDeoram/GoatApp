@@ -1,4 +1,4 @@
-# GoatApp
+# Shoe App
 
 A fun project using my flutter skills to build an app which lets you save your favourite shoes.CRUD is implemented into this app. 
 
