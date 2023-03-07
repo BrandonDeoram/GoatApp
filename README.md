@@ -10,7 +10,7 @@ A fun project using my flutter skills to build an e-commerce app.
  - View different shoes
  - Clear cart
  - Used Firebase to store data 
- - Compare prices from StockX ans GOAT
+ - Compare prices from StockX and GOAT
 
 ## Screenshots
 <p align="center">
